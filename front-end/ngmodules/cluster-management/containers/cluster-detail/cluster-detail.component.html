@@ -1,0 +1,34 @@
+<mat-card *ngIf="selectedCluster$ | async as cluster">
+  <mat-card-header>
+    <mat-card-title>{{ cluster.name }}</mat-card-title>
+    <mat-card-subtitle>{{ isActive$ | async | booleanLabels: ['Active', 'Inactive'] }}</mat-card-subtitle>
+    <mat-icon mat-card-avatar class="cluster-details-header__icon">info</mat-icon>
+  </mat-card-header>
+  <mat-divider [inset]="true"></mat-divider>
+  <mat-card-content class="cluster-details">
+    <ng-container *ngIf="hasClients$ | async; else emptyTpl">
+      <mat-list>
+        <mat-list-item *ngFor="let client of clusterClients$ | async">
+          <span matLine>{{ client.name }}</span>
+          <button
+            mat-button
+            color="primary"
+            *ngIf="canEdit$ | async"
+            (click)="onToggleBanned(client, cluster)"
+            class="cluster-details-client__control"
+          >
+            {{ client.banned | booleanLabels: ['UNBAN', 'BAN'] }}
+          </button>
+        </mat-list-item>
+      </mat-list>
+    </ng-container>
+    <ng-template #emptyTpl>
+      <p class="no-clusters-message">No clients attached to {{ cluster.name }}</p>
+    </ng-template>
+  </mat-card-content>
+  <mat-divider [inset]="true"></mat-divider>
+  <mat-card-actions class="cluster-details__controls">
+    <button mat-button color="primary" *ngIf="canEdit$ | async" (click)="onEdit(cluster)">EDIT</button>
+    <button mat-button color="warn" *ngIf="canDelete$ | async" (click)="onTerminate(cluster)">TERMINATE</button>
+  </mat-card-actions>
+</mat-card>

@@ -1,0 +1,31 @@
+.parser-help {
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.parser-help__table {
+  flex: 1;
+  overflow: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-row-gap: 4px;
+
+  > span {
+    padding: 4px;
+  }
+  .header {
+    position: sticky;
+    top: 0;
+    padding: 4px;
+    margin-bottom: 4px;
+  }
+}
+
+mat-icon.mat-card-avatar {
+  width: 40px;
+  height: 40px;
+  font-size: 40px;
+  opacity: 0;
+}

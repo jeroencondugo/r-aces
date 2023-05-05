@@ -1,0 +1,38 @@
+:host {
+  position: relative;
+  min-height: 200px;
+}
+
+.arc-sankey-container {
+  padding: 16px;
+}
+
+.arc-sankey__actions {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 14px;
+  min-height: 0;
+  height: 100%;
+}
+
+.arc-sankey-actions__item {
+  + .arc-sankey-actions__item {
+    margin-left: 8px;
+  }
+  &--short {
+    max-width: 140px;
+  }
+  &--date {
+    margin-bottom: 10px;
+  }
+}
+
+.arc-sankey-content__chart {
+  display: block;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.tooltip__list {
+  padding: 0;
+}

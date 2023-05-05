@@ -1,0 +1,30 @@
+<mat-card>
+  <mat-card-header>
+    <mat-icon mat-card-avatar>
+      edit
+    </mat-icon>
+    <mat-card-title>
+      Create Invite
+    </mat-card-title>
+  </mat-card-header>
+  <mat-divider [inset]="true"></mat-divider>
+  <mat-card-content>
+    <cdg-spinner [show]="showSpinner$ | async">
+      <cdg-invite-editor
+        [form]="form"
+        [clients]="clients$ | async"
+        [clusters]="clusters$ | async"
+        (selectedCluster)="onClusterSelected($event)"
+      ></cdg-invite-editor>
+    </cdg-spinner>
+  </mat-card-content>
+  <mat-divider [inset]="true"></mat-divider>
+  <mat-card-actions class="invite-edit-controls">
+    <button mat-button (click)="onReset()" [disabled]="!form.dirty">
+      RESET
+    </button>
+    <button mat-button color="primary" (click)="onSave(form)" [disabled]="!form.valid || !form.dirty">
+      SEND INVITE
+    </button>
+  </mat-card-actions>
+</mat-card>

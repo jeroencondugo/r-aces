@@ -1,0 +1,38 @@
+<mat-card *ngIf="invite$ | async as invite">
+  <mat-card-header>
+    <mat-card-title> Invitation details </mat-card-title>
+    <mat-card-subtitle> {{ invite.client?.name }} </mat-card-subtitle>
+  </mat-card-header>
+  <mat-divider [inset]="true"></mat-divider>
+  <mat-card-content class="invite-details">
+    <section class="invite-details__item">
+      <div class="invite-details-item__label mat-body-1">Cluster</div>
+      <div class="invite-details-item__value mat-body-2">{{ invite.cluster?.name }}</div>
+    </section>
+    <section class="invite-details__item">
+      <div class="invite-details-item__label mat-body-1">Client</div>
+      <div class="invite-details-item__value mat-body-2">{{ invite.client?.name }}</div>
+    </section>
+    <section class="invite-details__item">
+      <div class="invite-details-item__label mat-body-1">Expires at</div>
+      <div class="invite-details-item__value mat-body-2">{{ invite.expiresAt | date: 'yyyy-MM-dd HH:mm' }}</div>
+    </section>
+    <section class="invite-details__item">
+      <div class="invite-details-item__label mat-body-1">Status</div>
+      <div class="invite-details-item__value invite-details-item__value--with-icon mat-body-2">
+        {{ invite.status | titlecase}}
+        <mat-icon class="invite-details-item-value__icon" [color]="invite.status | statusColor">
+          {{ invite.status | statusIcon }}
+        </mat-icon>
+      </div>
+    </section>
+  </mat-card-content>
+  <mat-divider [inset]="true"></mat-divider>
+  <mat-card-actions class="invite-details__controls">
+    <button mat-button color="warn" (click)="onRevoke(invite)" *ngIf="showRevoke$ | async">REVOKE</button>
+    <ng-container *ngIf="invite.status === 'PENDING'">
+      <button mat-button (click)="onAccept(invite)">ACCEPT</button>
+      <button mat-button (click)="onDecline(invite)">DECLINE</button>
+    </ng-container>
+  </mat-card-actions>
+</mat-card>

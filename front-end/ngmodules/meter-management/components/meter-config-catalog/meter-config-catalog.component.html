@@ -1,0 +1,41 @@
+<div>
+  <button mat-mini-fab #trigger type="button" aria-label="Add new config" (click)="openDialog()">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+<ng-template #dialogTpl>
+  <div
+    role="dialog"
+    class="config-picker"
+    aria-label="Select meter config from the list"
+    [@configMenu]="'opened'"
+    (@configMenu.done)="onAnimationDone($event)"
+  >
+    <div class="config-picker-container" #element cdkTrapFocus cdkTrapFocusAutoCapture>
+      <mat-accordion [multi]="true">
+        <mat-expansion-panel
+          *ngFor="let category of configsByCategory; let i = index"
+          [expanded]="i < 2"
+          class="config-picker__category"
+        >
+          <mat-expansion-panel-header
+            [expandedHeight]="'40px'"
+            [collapsedHeight]="'40px'"
+            class="config-picker-category__header"
+          >
+            <mat-panel-title class="mat-body-2">{{ category.name }}</mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-list>
+            <mat-list-item class="config-picker-category-configs__item" *ngFor="let meterConfig of category.configs">
+              <button mat-button class="list-item__ripple" (click)="onConfigSelect(meterConfig)"></button>
+              <div class="config-picker-category-configs-item__label">
+                <span class="mat-body-1">{{ meterConfig.label }}</span>
+                <mat-icon class="configs-item-label__icon" [svgIcon]="meterConfig | configTypeIcon"> </mat-icon>
+              </div>
+            </mat-list-item>
+          </mat-list>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
+</ng-template>

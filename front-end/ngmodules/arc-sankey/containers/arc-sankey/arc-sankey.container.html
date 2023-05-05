@@ -1,0 +1,89 @@
+<cdg-header-title> Utility sharing </cdg-header-title>
+<cdg-extended-toolbar>
+  <mat-toolbar color="primary" class="arc-sankey__actions">
+    <mat-form-field appearance="fill" color="primary" class="arc-sankey-actions__item">
+      <mat-label>Site</mat-label>
+      <mat-select [value]="selectedSiteId$ | async" (selectionChange)="onSiteSelected($event)">
+        <mat-option *ngFor="let site of sites$ | async" [value]="site.id">
+          {{site.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <ng-container *ngIf="filterActionsVisible$ | async">
+      <mat-form-field
+        appearance="fill"
+        color="primary"
+        class="arc-sankey-actions__item arc-sankey-actions__item--short"
+      >
+        <mat-label>Measure option</mat-label>
+        <mat-select
+          [value]="selectedMeasureOption$ | async"
+          (selectionChange)="onMeasureOptionSelect($event)"
+          [disabled]="measureOptionsDisabled$ | async"
+        >
+          <mat-option *ngFor="let measureOption of availableMeasureOptions$ | async" [value]="measureOption">
+            {{measureOption | capitalcase}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field
+        appearance="fill"
+        color="primary"
+        class="arc-sankey-actions__item arc-sankey-actions__item--short"
+      >
+        <mat-label>Period</mat-label>
+        <mat-select [value]="selectedPeriod$ | async" (selectionChange)="onPeriodSelect($event)">
+          <mat-option *ngFor="let period of availablePeriods$ | async" [value]="period">
+            {{period | periodLabel}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <cdg-date-picker
+        [label]="'Date'"
+        class="arc-sankey-actions__item arc-sankey-actions__item--date"
+        [selectedDate]="startDate$ | async"
+        [options]="datetimeOptions$ | async"
+        [minDate]="minDate$ | async"
+        [maxDate]="maxDate$ | async"
+        [previousDisabled]="previousDisabled$ | async"
+        [nextDisabled]="nextDisabled$ | async"
+        (dateIncrement)="onIncrementStartDate()"
+        (dateDecrement)="onDecrementStartDate()"
+        (dateChange)="onChangeStartDate($event)"
+      >
+      </cdg-date-picker>
+    </ng-container>
+  </mat-toolbar>
+</cdg-extended-toolbar>
+
+<cdg-spinner [show]="loading$ | async">
+  <div class="arc-sankey-container">
+    <mat-card class="arc-sankey__content" *ngIf="hasData$ | async">
+      <cdg-arc-diagram
+        #arcDiagram
+        (nodeTooltip)="updateTooltip($event)"
+        [data]="data$ | async"
+        class="arc-sankey-content__chart"
+      >
+      </cdg-arc-diagram>
+    </mat-card>
+  </div>
+</cdg-spinner>
+
+<ng-template #tooltipTemplate let-node="value">
+  <mat-card class="arc-sankey-node-tooltip" [@tooltip]="">
+    <mat-list class="tooltip__list">
+      <mat-list-item>
+        <mat-icon mat-list-icon color="primary">input</mat-icon>
+        <span mat-line>{{ node.input | niceNumber }} {{ node.inputUnit }}</span>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon mat-list-icon color="warn">logout</mat-icon>
+        <p mat-line>{{ node.output | niceNumber }} {{ node.outputUnit }}</p>
+      </mat-list-item>
+    </mat-list>
+  </mat-card>
+</ng-template>

@@ -1,0 +1,55 @@
+<cdg-header-title> Meters </cdg-header-title>
+<cdg-extended-toolbar>
+  <mat-toolbar color="primary" class="meters__toolbar">
+    <button
+      type="button"
+      class="meters-header__add-new"
+      mat-mini-fab
+      color="accent"
+      *permission="{ component: 'METERS', operation: 'CREATE' }"
+      (click)="onCreateMeter()"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+    <mat-form-field
+      color="primary"
+      appearance="fill"
+      class="meters__search dark-background"
+      [hintLabel]="filterHint$ | async"
+    >
+      <mat-label>Search</mat-label>
+      <input matInput type="text" name="name" [formControl]="searchTermControl" />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </mat-toolbar>
+</cdg-extended-toolbar>
+<div class="grid-container">
+  <mat-card class="meters">
+    <mat-card-content>
+      <cdg-spinner [show]="loading$ | async">
+        <cdg-meters-list
+          [meters]="meterList$ | async"
+          [displayedColumns]="displayedColumns$ | async"
+          [sorting]="metersSorting$ | async"
+          [selectedId]="selectedMeterId$ | async"
+          (meterSelected)="onMeterIdSelected($event)"
+          (metersSingleSort)="onMetersSingleSort($event)"
+          (metersMultiSort)="onMetersMultiSort($event)"
+        >
+        </cdg-meters-list>
+        <mat-paginator
+          [showFirstLastButtons]="true"
+          [pageSize]="pageSize$ | async"
+          [pageIndex]="selectedPage$ | async"
+          [length]="filteredMetersCount$ | async"
+          [hidePageSize]="true"
+          (page)="onPageSelected($event)"
+        >
+        </mat-paginator>
+      </cdg-spinner>
+    </mat-card-content>
+  </mat-card>
+  <div class="meter-detail">
+    <router-outlet></router-outlet>
+  </div>
+</div>

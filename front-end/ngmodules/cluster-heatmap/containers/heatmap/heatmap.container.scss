@@ -1,0 +1,46 @@
+:host {
+  position: relative;
+  min-height: 200px;
+}
+
+.heatmap__actions {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 14px;
+  min-height: 0;
+  height: 100%;
+}
+
+.heatmap-actions__item {
+  + .heatmap-actions__item {
+    margin-left: 8px;
+  }
+  &--short {
+    max-width: 140px;
+  }
+  &--date {
+    margin-bottom: 10px;
+  }
+}
+
+.heatmaps-container {
+  padding: 8px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.heatmap {
+  flex-basis: 700px;
+  margin: 8px;
+  flex-grow: 1;
+}
+
+.heatmap__content {
+  display: flex;
+}
+.heatmap-content__chart {
+  flex: 1;
+}
+.heatmap-content__legend {
+  margin-top: 46px;
+}

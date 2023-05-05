@@ -1,0 +1,40 @@
+<mat-card *ngIf="termination$ | async as termination">
+  <mat-card-header>
+    <mat-card-title> Termination details </mat-card-title>
+    <mat-card-subtitle> {{ termination.client.name }} </mat-card-subtitle>
+  </mat-card-header>
+  <mat-divider [inset]="true"></mat-divider>
+  <mat-card-content class="termination-details">
+    <section class="termination-details__item">
+      <div class="termination-details-item__label mat-body-1">Cluster</div>
+      <div class="termination-details-item__value mat-body-2">{{ termination.cluster?.name }}</div>
+    </section>
+    <section class="termination-details__item">
+      <div class="termination-details-item__label mat-body-1">Client</div>
+      <div class="termination-details-item__value mat-body-2">{{ termination.client?.name }}</div>
+    </section>
+    <section class="termination-details__item">
+      <div class="termination-details-item__label mat-body-1">Expires at</div>
+      <div class="termination-details-item__value mat-body-2">
+        {{ termination.expiresAt | date: 'yyyy-MM-dd HH:mm' }}
+      </div>
+    </section>
+    <section class="termination-details__item">
+      <div class="termination-details-item__label mat-body-1">Status</div>
+      <div class="termination-details-item__value termination-details-item__value--with-icon mat-body-2">
+        {{ termination.status }}
+        <mat-icon class="termination-details-item-value__icon" [color]="termination.status | statusColor">
+          {{ termination.status | statusIcon }}
+        </mat-icon>
+      </div>
+    </section>
+  </mat-card-content>
+  <mat-divider [inset]="true"></mat-divider>
+  <mat-card-actions class="termination-details__controls">
+    <button mat-button color="warn" *ngIf="showRevoke$ | async" (click)="onRevoke(termination)">REVOKE</button>
+    <ng-container *ngIf="termination.status === 'PENDING'">
+      <button mat-button (click)="onAccept(termination)">ACCEPT</button>
+      <button mat-button (click)="onDecline(termination)">DECLINE</button>
+    </ng-container>
+  </mat-card-actions>
+</mat-card>

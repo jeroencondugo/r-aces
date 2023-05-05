@@ -1,0 +1,83 @@
+<mat-table [dataSource]="meters">
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef>
+      <div class="table__header__label" (click)="onMetersSingleSort('name')">Name</div>
+      <cdg-sorting
+        [sorting]="sorting | sortByColumn: 'name'"
+        [sortingMultiOrder]="sorting | multiSortOrder: 'name'"
+        (iconClick)="onMetersMultiSort('name')"
+      >
+      </cdg-sorting>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let meter">{{ meter.name }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="meterType">
+    <mat-header-cell *matHeaderCellDef class="meter__type">
+      <div class="table__header__label" (click)="onMetersSingleSort('meterType')">Type</div>
+      <cdg-sorting
+        [sorting]="sorting | sortByColumn: 'meterType'"
+        [sortingMultiOrder]="sorting | multiSortOrder: 'meterType'"
+        (iconClick)="onMetersMultiSort('meterType')"
+      >
+      </cdg-sorting>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let meter" class="meter__type">
+      <mat-chip-list>
+        <mat-chip [disableRipple]="true">
+          {{ meter.meterType | meterType }}
+        </mat-chip>
+      </mat-chip-list>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="commodityType">
+    <mat-header-cell *matHeaderCellDef>
+      <div class="table__header__label" (click)="onMetersSingleSort('commodityType')">Commodity</div>
+      <cdg-sorting
+        [sorting]="sorting | sortByColumn: 'commodityType'"
+        [sortingMultiOrder]="sorting | multiSortOrder: 'commodityType'"
+        (iconClick)="onMetersMultiSort('commodityType')"
+      >
+      </cdg-sorting>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let meter">{{ meter.commodityType?.name }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="site">
+    <mat-header-cell *matHeaderCellDef>
+      <span class="table__header__label" (click)="onMetersSingleSort('site')">Site</span>
+      <cdg-sorting
+        [sorting]="sorting | sortByColumn: 'site'"
+        [sortingMultiOrder]="sorting | multiSortOrder: 'site'"
+        (iconClick)="onMetersMultiSort('site')"
+      >
+      </cdg-sorting>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let meter">{{ meter.site?.name }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="activity">
+    <mat-header-cell *matHeaderCellDef class="meter__sparkline"> Activity</mat-header-cell>
+    <mat-cell *matCellDef="let meter" class="meter__sparkline">
+      <cdg-sparkline-mini
+        *ngIf="meter.activity && meter.activity.length; else noActivityTpl"
+        class="meter__sparkline"
+        [dataset]="meter.activity"
+      >
+      </cdg-sparkline-mini>
+      <ng-template #noActivityTpl>
+        <div class="table__header__label" (click)="onMetersSingleSort('name')">N/A</div>
+      </ng-template>
+    </mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row
+    matRipple
+    class="meters-row"
+    *matRowDef="let meter; columns: displayedColumns"
+    [ngClass]="{ active: meter | isSelected: selectedId }"
+    (click)="meterSelected.next(meter.id)"
+  >
+  </mat-row>
+</mat-table>

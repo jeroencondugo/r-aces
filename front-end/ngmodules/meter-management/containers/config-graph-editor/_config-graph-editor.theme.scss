@@ -1,0 +1,34 @@
+@use '~@angular/material' as mat;
+
+@mixin config-graph-editor-theme($theme) {
+  $background: map-get($theme, background);
+  $primary: map-get($theme, primary);
+
+  .config-graph-editor-header {
+    background: mat.get-color-from-palette($background, card);
+  }
+  .config-graph-editor__container {
+    .status-icon {
+      &:hover {
+        transform: scale(1.1);
+        transition: 0.1s ease-in transform;
+      }
+      &--warning {
+        #background {
+          fill: #5e5e5e;
+        }
+        #stroke {
+          fill: #fabc2c;
+        }
+      }
+      &--info {
+        #background {
+          fill: mat.get-color-from-palette($background, card);
+        }
+        #stroke {
+          fill: mat.get-color-from-palette($primary);
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,117 @@
+<cdg-header-title>
+  Edit meter configs <small>{{ meterName$ | async }}</small>
+</cdg-header-title>
+
+<div class="config-graph-editor-header mat-elevation-z2">
+  <button mat-icon-button (click)="onGoBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <cdg-config-breadcrumbs [breadcrumbs]="configBreadcrumbs$ | async" (navigate)="onNavigateToMeter($event)">
+  </cdg-config-breadcrumbs>
+  <div class="config-graph-editor-header__toolbar">
+    <cdg-meter-config-catalog
+      (configSelected)="onCreateNewConfig($event)"
+      [configsByCategory]="configsByCategory$ | async"
+    >
+    </cdg-meter-config-catalog>
+    <button mat-icon-button color="primary" (click)="onRunTest()"><mat-icon svgIcon="test-tube"></mat-icon></button>
+    <button mat-icon-button (click)="onUndoChange()" [disabled]="undoEnabled$ | async | isFalse">
+      <mat-icon
+        [matBadge]="undosCountLabel$ | async"
+        [matBadgeHidden]="hasNoUndos$ | async"
+        matBadgeSize="medium"
+        matBadgeOverlap="true"
+        matBadgePosition="above after"
+        >undo
+      </mat-icon>
+    </button>
+    <button mat-icon-button (click)="onRedoChange()" [disabled]="redoEnabled$ | async | isFalse">
+      <mat-icon
+        matBadgeSize="medium"
+        matBadgeOverlap="true"
+        [matBadge]="redosCountLabel$ | async"
+        [matBadgeHidden]="hasNoRedos$ | async"
+        matBadgePosition="above after"
+        >redo
+      </mat-icon>
+    </button>
+    <button
+      class="port-graph-editor__toolbar__save-changes"
+      [disabled]="isDirty$ | async | isFalse"
+      (click)="onSaveChanges()"
+      mat-icon-button
+      color="primary"
+    >
+      <mat-icon>save</mat-icon>
+    </button>
+    <button mat-icon-button color="warn" (click)="onResetChanges()" [disabled]="isDirty$ | async | isFalse">
+      <mat-icon>remove_circle</mat-icon>
+    </button>
+  </div>
+</div>
+<cdg-spinner [show]="saving$ | async" [message]="'SAVING CHANGES'" class="config-graph-editor__container">
+  <cdg-port-graph
+    [data]="graphData$ | async"
+    [portConnectionRules]="portConnectionRules"
+    [nodeConnectionRules]="nodeConnectionRules"
+    [readonlyNodeTypes]="['Meter']"
+    [titleResolver]="titleResolver"
+    [descriptionResolver]="descriptionResolver"
+    [icons]="nodeIcons$ | async"
+    [resize]="resize$ | async"
+    (nodeDeleted)="onNodeDeleted($event)"
+    (nodeSelected)="onNodeSelected($event)"
+    (connectionDeleted)="onConnectionDelete($event)"
+    (connectionAdded)="onConnectionAdded($event)"
+    (nodeContextMenuOpen)="onNodeContextMenu($event)"
+  >
+  </cdg-port-graph>
+  <ng-template #nodeContextMenu let-node="value" let-fns="fns">
+    <section class="node-menu mat-menu-panel" [@dropdownPanel]="'showing'">
+      <mat-action-list class="dropdown-content">
+        <button
+          mat-list-item
+          class="node-menu__item"
+          (click)="onNodeSelected({ node: node, anchor: { x: $event.clientX, y: $event.clientY } }); fns.close()"
+        >
+          <mat-icon matListIcon>edit</mat-icon>
+          <span matLine class="node-menu-item__label">Edit</span>
+        </button>
+        <button
+          mat-list-item
+          class="node-menu__item"
+          *ngIf="node.type === meterConfigType.SourceMeter"
+          (click)="onNavigateToSourceMeter(node); fns.close()"
+        >
+          <mat-icon matListIcon>shortcut</mat-icon>
+          <span matLine class="node-menu-item__label">Navigate to meter {{ node.name }}</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-list-item class="node-menu__item" (click)="onNodeDeleted(node); fns.close()">
+          <mat-icon matListIcon>delete</mat-icon>
+          <span matLine class="node-menu-item__label">Delete</span>
+        </button>
+      </mat-action-list>
+    </section>
+  </ng-template>
+  <ng-template #warningIcon let-summary>
+    <mat-icon
+      class="status-icon status-icon--warning"
+      cdk-overlay-origin
+      #origin="cdkOverlayOrigin"
+      (click)="onTestResult(origin, summary)"
+      svgIcon="warning"
+    >
+    </mat-icon>
+  </ng-template>
+  <ng-template #infoIcon let-summary>
+    <mat-icon
+      class="status-icon status-icon--info"
+      cdk-overlay-origin
+      #origin="cdkOverlayOrigin"
+      (click)="onTestResult(origin, summary)"
+      svgIcon="info"
+    >
+    </mat-icon>
+  </ng-template>
+</cdg-spinner>

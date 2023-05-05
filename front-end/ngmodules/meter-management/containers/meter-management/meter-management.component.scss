@@ -1,0 +1,46 @@
+.grid-container {
+  margin: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  position: relative;
+}
+
+.meters {
+  min-height: 200px;
+  flex: 4 0 410px;
+  margin: 8px;
+}
+
+.meters__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.meters__toolbar {
+  padding-bottom: 10px;
+}
+
+.meters__search {
+  font-size: 14px;
+  margin-right: 20px;
+  flex-basis: 300px;
+}
+
+.meters mat-card-content {
+  margin-top: 16px;
+}
+
+.meter-detail {
+  width: calc(100% - 2 * 12px);
+  margin: 8px;
+  flex-grow: 1;
+  flex-basis: 410px;
+}
+
+.meters-header__add-new {
+  align-self: flex-start;
+  margin-right: 20px;
+}

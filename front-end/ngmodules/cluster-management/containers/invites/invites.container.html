@@ -1,0 +1,49 @@
+<cdg-header-title>
+  Invite management
+</cdg-header-title>
+<mat-toolbar color="primary" class="invites__toolbar">
+  <button
+    type="button"
+    class="invites-toolbar__add-new"
+    mat-mini-fab
+    color="accent"
+    (click)="onCreateInvite()"
+    *permission="{ component: 'CLUSTER_INVITE', operation: 'CREATE' }"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+</mat-toolbar>
+<div class="invites-management">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        Invites
+      </mat-card-title>
+      <mat-card-subtitle>
+        Cluster invitations
+      </mat-card-subtitle>
+      <mat-icon svgIcon="invitation" mat-card-avatar></mat-icon>
+    </mat-card-header>
+    <mat-card-content>
+      <cdg-spinner [show]="loading$ | async">
+        <cdg-invite-list
+          [invites]="invites$ | async"
+          [selectedId]="selectedId$ | async"
+          (selected)="onInviteSelected($event)"
+        ></cdg-invite-list>
+      </cdg-spinner>
+      <mat-paginator
+        [showFirstLastButtons]="true"
+        [pageSize]="pageSize$ | async"
+        [pageIndex]="page$ | async"
+        [length]="invitesCount$ | async"
+        [hidePageSize]="true"
+        (page)="onPageSelected($event)"
+      >
+      </mat-paginator>
+    </mat-card-content>
+  </mat-card>
+  <div>
+    <router-outlet></router-outlet>
+  </div>
+</div>

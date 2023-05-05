@@ -1,0 +1,99 @@
+<cdg-header-title> Sharing potential </cdg-header-title>
+<cdg-extended-toolbar>
+  <mat-toolbar color="primary" class="heatmap__actions">
+    <mat-form-field appearance="fill" color="primary" class="heatmap-actions__item">
+      <mat-label>Measure</mat-label>
+      <mat-select [value]="selectedMeasure$ | async" (selectionChange)="selectMeasure($event)">
+        <mat-option *ngFor="let measure of measures$ | async" [value]="measure.id">
+          {{measure | measureLabel}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <ng-container *ngIf="displayFilterActions$ | async">
+      <mat-form-field appearance="fill" color="primary" class="heatmap-actions__item heatmap-actions__item--short">
+        <mat-label>Period</mat-label>
+        <mat-select
+          [value]="selectedPeriod$ | async"
+          (selectionChange)="selectPeriod($event)"
+          [disabled]="periodDisabled$ | async"
+        >
+          <mat-option *ngFor="let period of availablePeriods$ | async" [value]="period">
+            {{period | periodLabel}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" color="primary" class="heatmap-actions__item heatmap-actions__item--short">
+        <mat-label>Resolution</mat-label>
+        <mat-select
+          [value]="selectedResolution$ | async"
+          (selectionChange)="selectResolution($event)"
+          [disabled]="resolutionDisabled$ | async"
+        >
+          <mat-option *ngFor="let resolution of availableResolutions$ | async" [value]="resolution">
+            {{resolution | resolutionLabel}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" color="primary" class="heatmap-actions__item">
+        <mat-label>Excess</mat-label>
+        <mat-select multiple #excessMeters (openedChange)="!$event ? selectExcessMeters(excessMeters.selected) : null">
+          <mat-option *ngFor="let meter of availableMeters$ | async" [value]="meter.id">
+            {{meter.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" color="primary" class="heatmap-actions__item">
+        <mat-label>Demand</mat-label>
+        <mat-select multiple #demandMeters (openedChange)="!$event ? selectDemandMeters(demandMeters.selected) : null">
+          <mat-option *ngFor="let meter of availableMeters$ | async" [value]="meter.id">
+            {{meter.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <cdg-date-picker
+        [label]="'Date'"
+        class="heatmap-actions__item heatmap-actions__item--date"
+        [selectedDate]="startDate$ | async"
+        [options]="datetimeOptions$ | async"
+        [minDate]="minDate$ | async"
+        [maxDate]="maxDate$ | async"
+        [previousDisabled]="previousDisabled$ | async"
+        [nextDisabled]="nextDisabled$ | async"
+        (dateIncrement)="onIncrementStartDate()"
+        (dateDecrement)="onDecrementStartDate()"
+        (dateChange)="onChangeStartDate($event)"
+      >
+      </cdg-date-picker>
+    </ng-container>
+  </mat-toolbar>
+</cdg-extended-toolbar>
+
+<cdg-spinner [show]="heatmapsLoading$ | async">
+  <div class="heatmaps-container">
+    <mat-card *ngFor="let heatmap of heatmaps$ | async;" class="heatmap">
+      <mat-card-header>
+        <mat-card-title>{{ heatmap.title }}</mat-card-title>
+        <mat-card-subtitle>{{ heatmap.subtitle }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content class="heatmap__content">
+        <cdg-heatmap
+          class="heatmap-content__chart"
+          [data]="heatmap.data"
+          [colorScheme]="heatmap.colorScheme"
+          [hideYAxisValues]="heatmap.hideYAxisValues"
+          (selectedTile)="onTileSelected(heatmap.id, $event)"
+        ></cdg-heatmap>
+        <cdg-heatmap-legend
+          class="heatmap-content__legend"
+          [colorSchema]="heatmap.colorScheme"
+          [orientation]="'vertical'"
+          [displayValue]="selectedValue$ | async | selectNested:heatmap.id"
+        ></cdg-heatmap-legend>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</cdg-spinner>

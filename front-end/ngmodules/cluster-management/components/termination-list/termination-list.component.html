@@ -1,0 +1,15 @@
+<mat-action-list>
+  <button
+    mat-list-item
+    *ngFor="let termination of terminations"
+    (click)="terminationSelected(termination)"
+    [ngClass]="{ 'list-item__selected': termination | isSelected: selectedId }"
+  >
+    <mat-icon matListIcon [color]="termination.status | statusColor" [matTooltip]="termination.status | titlecase">
+      {{ termination.status | statusIcon }}
+    </mat-icon>
+    <span mat-line>{{ termination.cluster?.name }}</span>
+    <span mat-line>{{ termination.client?.name }}</span>
+    <span class="mat-caption"> expires in {{ termination.expiresAt | distanceInWordsToNow }} </span>
+  </button>
+</mat-action-list>

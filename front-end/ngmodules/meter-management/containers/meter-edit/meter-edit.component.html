@@ -1,0 +1,20 @@
+<mat-card [@fadeIn]="" *ngIf="form$ | async as form">
+  <cdg-meter-form
+    [form]="form"
+    [basetreesConnections]="basetreesConnections$ | async"
+    [measures]="measures$ | async"
+    (editMeterConfigs)="onEditMeterConfigs()"
+  ></cdg-meter-form>
+  <div class="card-footer__action-buttons">
+    <button [disabled]="resetDisabled$ | async" type="button" mat-button (click)="resetForm()">RESET</button>
+    <button
+      mat-flat-button
+      type="button"
+      color="accent"
+      (click)="onEdit(form.value)"
+      [disabled]="saveDisabled$ | async"
+    >
+      SAVE
+    </button>
+  </div>
+</mat-card>

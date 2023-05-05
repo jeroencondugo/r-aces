@@ -1,0 +1,57 @@
+<cdg-header-title>Cluster management</cdg-header-title>
+<mat-toolbar color="primary" class="cluster__toolbar">
+  <button
+    type="button"
+    class="cluster-toolbar__add-new"
+    mat-mini-fab
+    color="accent"
+    (click)="onCreateCluster()"
+    *permission="{ component: 'CLUSTER', operation: 'CREATE' }"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+  <mat-form-field
+    [hintLabel]="hintLabel$ | async"
+    color="primary"
+    appearance="fill"
+    class="cluster-management__search dark-background"
+  >
+    <mat-label>Search</mat-label>
+    <input matInput type="text" name="name" [formControl]="searchTermControl" />
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+</mat-toolbar>
+<div class="cluster-management">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        Clusters
+      </mat-card-title>
+      <mat-icon mat-card-avatar svgIcon="org_cluster"></mat-icon>
+      <mat-card-subtitle>visible clusters</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <cdg-spinner [show]="loading$ | async">
+        <cdg-cluster-list
+          [clusters]="clusters$ | async"
+          [selectedId]="selectedId$ | async"
+          [canEdit]="canEdit$ | async"
+          (clusterSelected)="onSelected($event)"
+          (activeChanged)="onActiveUpdate($event)"
+        ></cdg-cluster-list>
+      </cdg-spinner>
+      <mat-paginator
+        [showFirstLastButtons]="true"
+        [pageSize]="pageSize$ | async"
+        [pageIndex]="activePage$ | async"
+        [length]="clustersCount$ | async"
+        [hidePageSize]="true"
+        (page)="onPageSelected($event)"
+      >
+      </mat-paginator>
+    </mat-card-content>
+  </mat-card>
+  <div>
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+table {
+  width: 100%;
+}
+
+mat-header-cell {
+  flex-wrap: wrap;
+}
+
+mat-cell {
+  &.meter-actions {
+    flex: 0 1 auto;
+  }
+  &.meter__type {
+    flex: 0 1 90px;
+  }
+  &.meter__sparkline {
+    flex: 0 1 120px;
+  }
+}
+
+mat-header-cell {
+  &.meter-actions {
+    flex: 0 1 auto;
+  }
+  &.meter__type {
+    flex: 0 1 90px;
+  }
+  &.meter__sparkline {
+    flex: 0 1 120px;
+  }
+}
+
+.table-header__label {
+  cursor: pointer;
+  padding: 4px 8px 4px 0;
+}
+
+.meters-row {
+  position: relative;
+  &:hover {
+    cursor: pointer;
+  }
+}

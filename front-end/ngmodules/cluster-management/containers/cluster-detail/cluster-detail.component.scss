@@ -1,0 +1,29 @@
+.cluster-details {
+  flex-direction: row;
+}
+
+.cluster-details-header__icon {
+  font-size: 40px;
+}
+
+.cluster-details__controls {
+  display: flex;
+  justify-content: center;
+}
+
+.cluster-details__client {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.cluster-details-client__control {
+  margin-left: auto;
+}
+
+.no-clusters-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 16px;
+}

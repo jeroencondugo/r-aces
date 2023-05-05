@@ -1,0 +1,93 @@
+<mat-card class="parser-help">
+  <mat-card-header>
+    <mat-icon mat-card-avatar> help </mat-icon>
+    <mat-card-title>Parser options and examples</mat-card-title>
+    <mat-card-subtitle>Short manual with codes and their meanings</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content class="parser-help__table">
+    <p class="header mat-subheading-2"><b>Code</b></p>
+    <p class="header mat-subheading-2"><b>Meaning</b></p>
+    <p class="header mat-subheading-2"><b>Example</b></p>
+    <code>- Value</code>
+    <p>Minus</p>
+    <code>-4 = -4</code>
+
+    <code>+ Value</code>
+    <p>Plus</p>
+    <code>+4 = 4</code>
+
+    <code>Value_1 - Value_2</code>
+    <p>Subtracts Value_2 from Value_1</p>
+    <code>6-4 = 2</code>
+
+    <code>Value_1 + Value_2</code>
+    <p>Adds Value_1 + Value_2. Can be concatenated</p>
+    <code>40 + 60 = 100, 40 +50 + 10 = 100</code>
+
+    <code>Value_1 * Value_2</code>
+    <p>Multiplies Value_1 to Value_2. Can be concatenated</p>
+    <code>4*4 = 16</code>
+
+    <code>Value_1 / Value_2</code>
+    <p>Divides Value_1 by Value_2. Make sure Value_2 isn't zero</p>
+    <code>4/20 = 5</code>
+
+    <code>$Number</code>
+    <p
+      >Represents a variable. Adding a dollar sign in front of any number will create an input port. The number will be
+      the name of the input port. Characters are not allowed in variables
+    </p>
+    <code>$0, &1, ..., $14</code>
+
+    <code>abs(Value)</code>
+    <p>Returns the absolute value</p>
+    <code>abs(-4) = 4, abs($0), abs($0 + 4),</code>
+
+    <code>|Value|</code>
+    <p>Same as abs()</p>
+    <code>|-4| = 4, |$0|, |$0 +4|</code>
+
+    <code>(Value)</code>
+    <p>Changes evaluation order. Operations inside the parenthesis will go before the operations outside</p>
+    <code>4-(4-2) = 2</code>
+
+    <code>Value_1 > Value_2</code>
+    <p>Greater than, cannot be concatenated</p>
+    <code>4>2 gives True</code>
+
+    <code>Value_1 < Value_2</code>
+    <p>Less than, cannot be concatenated</p>
+    <code>4 < 2 gives False</code>
+
+    <code>Value_1 == Value_2</code>
+    <p>Equals, cannot be concatenated</p>
+    <code>4 == 6 gives False, $1 == $0, $0 = 4</code>
+
+    <code> Value_1 <= Value_2 </code>
+    <p>Less than or equal, cannot be concatenated</p>
+    <code>4 <= 4 gives True, 3 <= 4 gives True</code>
+
+    <code>Value_1 >= Value_2</code>
+    <p>Greater than or equal, cannot be concatenated</p>
+    <code>4>=5 gives False, 4 >= 4 gives True</code>
+
+    <code>! BoolExpr</code>
+    <p>Negation</p>
+    <code>!(4 == 4) gives False</code>
+
+    <code>BooleanExpr_1 OR BooleanExpr_2</code>
+    <p>Simple OR gate</p>
+    <code>True OR False gives False, 4 == 6 OR 5 == 5 gives True</code>
+
+    <code>BooleanExpr_1 AND BooleanExpr_2</code>
+    <p>Simple AND gate</p>
+    <code>True AND False gives False, 4 == 5 AND 4 == 4 gives False</code>
+
+    <code>if BoolExpr_1 then Value_1 else Value_2</code>
+    <p>If BoolExpr_1 is True then it will return Value_1 else Value_2</p>
+    <code>If $0 >=2 then $1 else ($2 + $1), If (2 <= 4 OR $0 >= &1) then 2 else $1 </code>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-button (click)="onClose()">CLOSE</button>
+  </mat-card-actions>
+</mat-card>

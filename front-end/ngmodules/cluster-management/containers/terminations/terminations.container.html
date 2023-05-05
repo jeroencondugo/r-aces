@@ -1,0 +1,49 @@
+<cdg-header-title>Termination management</cdg-header-title>
+<cdg-extended-toolbar>
+  <mat-toolbar color="primary" class="terminations__toolbar">
+    <button
+      type="button"
+      class="terminations-toolbar__add-new"
+      mat-mini-fab
+      color="accent"
+      (click)="onCreateTermination()"
+      *permission="{ component: 'CLUSTER_TERMINATE', operation: 'CREATE' }"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+  </mat-toolbar>
+</cdg-extended-toolbar>
+<div class="terminations-management">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        Terminations
+      </mat-card-title>
+      <mat-card-subtitle>
+        Cluster terminations
+      </mat-card-subtitle>
+      <mat-icon svgIcon="invitation" mat-card-avatar></mat-icon>
+    </mat-card-header>
+    <mat-card-content>
+      <cdg-spinner [show]="loading$ | async">
+        <cdg-termination-list
+          [terminations]="terminations$ | async"
+          [selectedId]="selectedId$ | async"
+          (selected)="onTerminationSelected($event)"
+        ></cdg-termination-list>
+      </cdg-spinner>
+      <mat-paginator
+        [showFirstLastButtons]="true"
+        [pageSize]="pageSize$ | async"
+        [pageIndex]="page$ | async"
+        [length]="terminationsCount$ | async"
+        [hidePageSize]="true"
+        (page)="onPageSelected($event)"
+      >
+      </mat-paginator>
+    </mat-card-content>
+  </mat-card>
+  <div>
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+.invite-details {
+  margin: 24px 0;
+}
+
+.invite-details__item {
+  display: flex;
+  margin: 16px;
+  align-items: center;
+}
+
+.invite-details-item__label {
+  flex-basis: 100px;
+  opacity: 0.8;
+}
+
+.invite-details-item__value {
+  margin-left: auto;
+}
+
+.invite-details-item__value--with-icon {
+  display: flex;
+}
+
+.invite-details-item-value__icon {
+  margin-left: 8px;
+}
+
+.invite-details__controls {
+  display: flex;
+  justify-content: center;
+}

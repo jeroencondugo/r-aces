@@ -1,0 +1,25 @@
+<mat-card [@fadeIn]="">
+  <mat-card-header>
+    <mat-card-title>New meter</mat-card-title>
+  </mat-card-header>
+  <cdg-meter-form
+    [form]="form"
+    [measures]="measures$ | async"
+    [basetreesConnections]="basetreesConnections$ | async"
+    [enableMeterConfig]="false"
+  ></cdg-meter-form>
+  <div class="card-footer__action-buttons">
+    <button [disabled]="!(form.touched || form.dirty)" type="button" mat-button (click)="resetForm()">
+      RESET
+    </button>
+    <button
+      mat-flat-button
+      type="button"
+      color="accent"
+      (click)="onCreate(form.value)"
+      [disabled]="!form.valid || !form.dirty"
+    >
+      SAVE
+    </button>
+  </div>
+</mat-card>

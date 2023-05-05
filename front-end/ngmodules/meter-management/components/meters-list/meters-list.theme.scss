@@ -1,0 +1,14 @@
+@use '~@angular/material' as mat;
+
+@mixin meter-list-theme($theme) {
+  $background: map-get($theme, background);
+  .meter-list .meter {
+    background-color: mat.get-color-from-palette($background, card);
+  }
+
+  .meters-row {
+    &.active {
+      background-color: mat.get-color-from-palette($background, focused-button);
+    }
+  }
+}

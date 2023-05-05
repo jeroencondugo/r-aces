@@ -1,0 +1,31 @@
+.termination-details {
+  margin: 24px 0;
+}
+
+.termination-details__item {
+  display: flex;
+  margin: 16px;
+  align-items: center;
+}
+
+.termination-details-item__label {
+  flex-basis: 100px;
+  opacity: 0.8;
+}
+
+.termination-details-item__value {
+  margin-left: auto;
+}
+
+.termination-details-item__value--with-icon {
+  display: flex;
+}
+
+.termination-details-item-value__icon {
+  margin-left: 8px;
+}
+
+.termination-details__controls {
+  display: flex;
+  justify-content: center;
+}

@@ -1,0 +1,15 @@
+<mat-action-list>
+  <button
+    mat-list-item
+    *ngFor="let invite of invites; trackBy: inviteIdentity"
+    (click)="inviteSelected(invite)"
+    [ngClass]="{ 'list-item__selected': invite | isSelected: selectedId }"
+  >
+    <mat-icon matListIcon [color]="invite.status | statusColor" [matTooltip]="invite.status | titlecase">
+      {{ invite.status | statusIcon }}
+    </mat-icon>
+    <span mat-line>{{ invite.cluster?.name }}</span>
+    <span mat-line>{{ invite.client?.name }}</span>
+    <span class="mat-caption"> expires in {{ invite.expiresAt | distanceInWordsToNow }} </span>
+  </button>
+</mat-action-list>
